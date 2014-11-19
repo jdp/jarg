@@ -90,7 +90,7 @@ def fatal(msg, code=1):
 
 def main():
     ap = argparse.ArgumentParser(
-        description="Write shorthand JSON in the shell.")
+        description="Shorthand encoding format syntax.")
     dialects = ap.add_mutually_exclusive_group()
     dialects.add_argument(
         '-j', '--json', action='store_const', const=JSONDialect,
