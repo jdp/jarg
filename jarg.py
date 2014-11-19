@@ -5,7 +5,7 @@ import json
 import os
 import sys
 
-__VERSION__ = (0, 1, 1)
+__VERSION__ = (0, 1, 2)
 
 
 class InvalidJSONError(ValueError):

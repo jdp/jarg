@@ -2,7 +2,14 @@
 jarg
 ====
 
-**jarg** is a JSON shorthand for your shell.
+**jarg** is a JSON shorthand for your shell. It is a command-line utility that wants to make writing JSON in the shell easier.
+
+Installation
+------------
+
+Install from PyPI_::
+
+    $ pip install jarg
 
 Usage
 -----
@@ -18,6 +25,12 @@ Floats and integers will work too::
 
     $ jarg foo=10 bar=4.2
     {"foo": 10, "bar": 4.2}
+
+If you really need something to be a string,
+you can surround the value in double quotes::
+
+    $ jarg foo=\"123\"
+    {"foo": "123"}
 
 The value is optional.
 If you leave it out, it is interpreted as ``null``::
@@ -37,3 +50,5 @@ The literal JSON syntax also helps you nest objects::
 
     $ jarg foo:="$(jarg bar=baz quux=bux)"
     {"foo": {"quux": "bux", "bar": "baz"}}
+
+.. _PyPI: http://pypi.python.org/
