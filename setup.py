@@ -43,7 +43,7 @@ class PyTest(TestCommand):
 
 dist = setup(
     name='jarg',
-    version='.'.join(map(str, jarg.__VERSION__)),
+    version='.'.join(jarg.__VERSION__),
     license='MIT',
     description="A shorthand encoding syntax for your shell",
     long_description=readme,

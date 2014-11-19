@@ -11,7 +11,7 @@ except ImportError:
     from urllib.parse import parse_qs
 
 
-__VERSION__ = (0, 2, 1)
+__VERSION__ = ('0', '2', '1')
 
 
 class InvalidLiteralError(ValueError):
@@ -102,7 +102,7 @@ def main():
         'pair', nargs='+', help="a pair in the format of KEY=VALUE")
     ap.add_argument(
         '-V', '--version', action='version',
-        version="%(prog)s {}".format('.'.join(map(str, __VERSION__))))
+        version="%(prog)s {}".format('.'.join(__VERSION__)))
     args = ap.parse_args()
 
     dialect = (args.dialect or JSONDialect)()
