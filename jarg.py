@@ -11,7 +11,7 @@ except ImportError:
     from urllib.parse import parse_qs
 
 
-__VERSION__ = (0, 2, 0)
+__VERSION__ = (0, 2, 1)
 
 
 class InvalidLiteralError(ValueError):
@@ -44,8 +44,7 @@ class JSONDialect(BaseDialect):
             try:
                 value = float(value)
             except ValueError:
-                if len(value) >= 2 and value[0] == '"' and value[-1] == '"':
-                    value = value[1:-1]
+                pass
         return value
 
     def dumps(self, context):

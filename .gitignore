@@ -1,4 +1,5 @@
 dist
+*.egg
 *.egg-info
 *.pyc
 tests/__pycache__

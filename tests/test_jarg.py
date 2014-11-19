@@ -9,7 +9,7 @@ def test_JSONDialect():
     assert dialect.to_python("bar") == "bar"
     assert dialect.to_python("42") == 42
     assert dialect.to_python("4.20") == 4.2
-    assert dialect.to_python('"69"') == "69"
+    assert dialect.to_python('"69"') == '"69"'
 
     assert dialect.from_literal("true") == True
     assert dialect.from_literal("false") == False
