@@ -8,7 +8,7 @@
 
 ## DESCRIPTION
 
-**jarg** is a shorthand syntax for writing encoded data formats.
+**jarg** provides a shorthand syntax for writing encoded data formats.
 It writes the final representation to standard output.
 
 Each argument must be in the format of *name=value*.
@@ -83,7 +83,7 @@ Development progress and issues are tracked on the project page.
 
 ## WWW
 
-[http://jdp.github.io/jarg](http://jdp.github.io/jarg)
+[http://jdp.github.io/jarg](http://jdp.github.io/jarg)<br>
 
 ## COPYRIGHT
 
