@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import argparse
 import json
 import os
 import sys
+
+__VERSION__ = (0, 1, 1)
 
 
 class InvalidJSONError(ValueError):
@@ -65,8 +68,16 @@ def fatal(msg, code=1):
 
 
 def main():
+    ap = argparse.ArgumentParser(
+        description="Write shorthand JSON in the shell.")
+    ap.add_argument('pair', nargs='+', help="a pair in the format of KEY=VALUE")
+    ap.add_argument(
+        '--version', action='version',
+        version="%(prog)s {}".format('.'.join(map(str, __VERSION__))))
+    args = ap.parse_args()
+
     try:
-        result = dict(makepair(pair) for pair in sys.argv[1:])
+        result = dict(makepair(pair) for pair in args.pair)
         sys.stdout.write(json.dumps(result))
     except InvalidJSONError as e:
         fatal("valid JSON value required for key `{}'".format(e.key))

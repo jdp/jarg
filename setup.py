@@ -4,6 +4,9 @@ import sys
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
+import jarg
+
+
 here = os.path.abspath(os.path.dirname(__file__))
 readme = open(os.path.join(here, 'README.rst')).read()
 
@@ -40,7 +43,7 @@ class PyTest(TestCommand):
 
 dist = setup(
     name='jarg',
-    version='0.1.0',
+    version='.'.join(map(str, jarg.__VERSION__)),
     license='MIT',
     description="A shorthand JSON syntax for your shell",
     long_description=readme,
