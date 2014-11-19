@@ -77,6 +77,10 @@ Development progress and issues are tracked on the project page.
 
   [http://github.com/jdp/jarg](http://github.com/jdp/jarg)
 
+## BUGS
+
+[https://github.com/jdp/jarg/issues](https://github.com/jdp/jarg/issues)
+
 ## WWW
 
 [http://jdp.github.io/jarg](http://jdp.github.io/jarg)
