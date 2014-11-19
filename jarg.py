@@ -4,40 +4,69 @@ import argparse
 import json
 import os
 import sys
+from urllib import urlencode
+try:
+    from urlparse import parse_qs
+except ImportError:
+    from urllib.parse import parse_qs
 
-__VERSION__ = (0, 1, 2)
+
+__VERSION__ = (0, 2, 0)
 
 
-class InvalidJSONError(ValueError):
+class InvalidLiteralError(ValueError):
     def __init__(self, key, *args, **kwargs):
         self.key = key
-        super(InvalidJSONError, self).__init__(key, *args, **kwargs)
+        super(InvalidLiteralError, self).__init__(key, *args, **kwargs)
 
 
-def makepair(pair):
+class BaseDialect(object):
+    def from_literal(self, value):
+        return value
+
+    def to_python(self, value):
+        return value
+
+    def dumps(self, context):
+        return str(context)
+
+
+class JSONDialect(BaseDialect):
+    def from_literal(self, value):
+        return json.loads(value)
+
+    def to_python(self, value):
+        if value is None:
+            return value
+        try:
+            value = int(value)
+        except ValueError:
+            try:
+                value = float(value)
+            except ValueError:
+                if len(value) >= 2 and value[0] == '"' and value[-1] == '"':
+                    value = value[1:-1]
+        return value
+
+    def dumps(self, context):
+        return json.dumps(context)
+
+
+class FormDialect(BaseDialect):
+    def from_literal(self, value):
+        return parse_qs(value)
+
+    def to_python(self, value):
+        if value is None:
+            return ""
+        return value
+
+    def dumps(self, context):
+        return urlencode(context)
+
+
+def makepair(dialect, pair):
     """Return a (key, value) tuple from a KEY=VALUE formatted string.
-
-    Most of the time, both the key and value are strings.
-    >>> makepair("foo=bar")
-    ('foo', 'bar')
-
-    But integers and floats are recognized too.
-    >>> makepair("foo=42")
-    ('foo', 42)
-    >>> makepair("foo=4.20")
-    ('foo', 4.2)
-
-    You can force values to be strings by surrounding them with double quotes.
-    >>> makepair('foo="69"')
-    ('foo', '69')
-
-    Pairs without an = delimiter have the value None.
-    >>> makepair("foo")
-    ('foo', None)
-
-    If you need to insert raw JSON values, you can do it with KEY:=VALUE format.
-    >>> makepair("foo:=[1, 2, 3]")
-    ('foo', [1, 2, 3])
     """
 
     parts = pair.split('=', 1)
@@ -47,18 +76,11 @@ def makepair(pair):
     if key[-1] == ":":
         key = key[:-1]
         try:
-            value = json.loads(value)
+            value = dialect.from_literal(value)
         except ValueError:
-            raise InvalidJSONError(key)
-    elif value is not None:
-        try:
-            value = int(value)
-        except ValueError:
-            try:
-                value = float(value)
-            except ValueError:
-                if len(value) >= 2 and value[0] == '"' and value[-1] == '"':
-                    value = value[1:-1]
+            raise InvalidLiteralError(key)
+    else:
+        value = dialect.to_python(value)
     return key, value
 
 
@@ -70,17 +92,26 @@ def fatal(msg, code=1):
 def main():
     ap = argparse.ArgumentParser(
         description="Write shorthand JSON in the shell.")
-    ap.add_argument('pair', nargs='+', help="a pair in the format of KEY=VALUE")
+    dialects = ap.add_mutually_exclusive_group()
+    dialects.add_argument(
+        '-j', '--json', action='store_const', const=JSONDialect,
+        dest='dialect', help="use the JSON dialect")
+    dialects.add_argument(
+        '-f', '--form', action='store_const', const=FormDialect,
+        dest='dialect', help="use the form encoding dialect")
     ap.add_argument(
-        '--version', action='version',
+        'pair', nargs='+', help="a pair in the format of KEY=VALUE")
+    ap.add_argument(
+        '-V', '--version', action='version',
         version="%(prog)s {}".format('.'.join(map(str, __VERSION__))))
     args = ap.parse_args()
 
+    dialect = (args.dialect or JSONDialect)()
     try:
-        result = dict(makepair(pair) for pair in args.pair)
-        sys.stdout.write(json.dumps(result))
-    except InvalidJSONError as e:
-        fatal("valid JSON value required for key `{}'".format(e.key))
+        result = dict(makepair(dialect, pair) for pair in args.pair)
+    except InvalidLiteralError as e:
+        fatal("valid literal value required for key `{}'".format(e.key))
+    sys.stdout.write(dialect.dumps(result))
 
 if __name__ == '__main__':
     main()
