@@ -79,7 +79,7 @@ Development progress and issues are tracked on the project page.
 
 ## WWW
 
-[http://jdp.github.com/jarg](http://jdp.github.com/jarg)
+[http://jdp.github.io/jarg](http://jdp.github.io/jarg)
 
 ## COPYRIGHT
 
