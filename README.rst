@@ -33,7 +33,7 @@ If you leave it out, it is interpreted as ``null``::
     $ jarg foo
     {"foo": null}
 
-You can also write JSON directly, using the `name:=value` syntax.
+You can also write literal values directly, using the `name:=value` syntax.
 That lets you write things like booleans, lists, and explicit strings::
 
     $ jarg foo:=true bar:=\"123\"
