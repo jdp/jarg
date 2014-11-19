@@ -3,3 +3,4 @@ dist
 *.egg-info
 *.pyc
 tests/__pycache__
+man/jarg.1.html
