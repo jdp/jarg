@@ -1,6 +1,8 @@
 import os
+import sys
 
 from setuptools import setup
+from setuptools.command.test import test as TestCommand
 
 here = os.path.abspath(os.path.dirname(__file__))
 readme = open(os.path.join(here, 'README.rst')).read()
@@ -19,6 +21,23 @@ classifiers = [
     'Topic :: Utilities',
 ]
 
+
+class PyTest(TestCommand):
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.pytest_args = []
+
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        import pytest
+        errno = pytest.main(self.pytest_args)
+        sys.exit(errno)
+
+
 dist = setup(
     name='jarg',
     version='0.1.0',
@@ -35,4 +54,6 @@ dist = setup(
     entry_points={
         'console_scripts': ['jarg = jarg:main'],
     },
+    tests_require=['pytest'],
+    cmdclass = {'test': PyTest},
 )
