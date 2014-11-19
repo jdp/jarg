@@ -1,0 +1,86 @@
+# jarg(1) - shorthand JSON and form syntax
+
+## SYNOPSIS
+
+  `jarg` *name=value*...<br>
+  `jarg` *name:=value*...<br>
+  `jarg` `-f` *name=value*...
+
+## DESCRIPTION
+
+**jarg** is a shorthand syntax for writing encoded data formats.
+It writes the final representation to standard output.
+
+Each argument must be in the format of *name=value*.
+The *=value* portion is optional, omitting it will cause the value to take the empty value of the current dialect.
+Literal values may be provided in the *name:=value* format and they will be interpreted according to the current dialect.
+
+## DIALECTS
+
+Output is determined by the current dialect.
+The default dialect is JSON.
+
+### JSON
+
+The output will be a JSON object.
+Integers and floats are automatically recognized.
+Booleans, lists, and objects can be provided as literal values.
+The empty value is *null*.
+
+### FORM
+
+The output will be a percent-encoded list of name/value pairs,
+in the application/x-www-form-urlencoded format.
+The empty value is an empty string.
+
+## OPTIONS
+
+  * `-j`, `--json`:
+    Set the current dialect to JSON.
+
+  * `-f`, `--form`:
+    Set the current dialect to form encoding.
+
+  * `-h`, `--help`:
+    Show a help message and exit.
+
+  * `-V`, `--version`:
+    Show the version and exit.
+
+
+## EXIT CODES
+
+### 1
+
+Error parsing literal value.
+
+## EXAMPLES
+
+Write some JSON to standard output:
+
+    $ jarg foo=bar baz=123 bux:=true
+    {"foo": "bar", "baz": 123, "bux": true}
+
+Force a string representation of a number in JSON:
+
+    $ jarg foo:=\"123\"
+    {"foo": "123"}
+
+Say something nice about **jarg** in form encoding:
+
+    $ jarg -f jarg="is cool and good"
+    jarg=is+cool+and+good
+
+## DEVELOPMENT
+
+Development progress and issues are tracked on the project page.
+
+  [http://github.com/jdp/jarg](http://github.com/jdp/jarg)
+
+## WWW
+
+[http://jdp.github.com/jarg](http://jdp.github.com/jarg)
+
+## COPYRIGHT
+
+Copyright &copy; 2014 Justin Poliey [http://justinpoliey.com](http://justinpoliey.com)
