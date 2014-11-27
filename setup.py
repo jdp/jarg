@@ -53,7 +53,7 @@ dist = setup(
     url='http://github.com/jdp/jarg',
     include_package_data=True,
     zip_safe=False,
-    py_modules=['jarg'],
+    packages=['jarg'],
     entry_points={
         'console_scripts': ['jarg = jarg:main'],
     },

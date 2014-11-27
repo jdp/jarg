@@ -10,6 +10,8 @@ try:
 except ImportError:
     from urllib.parse import parse_qs
 
+import jsonform
+
 
 __VERSION__ = ('0', '2', '1')
 
@@ -48,7 +50,7 @@ class JSONDialect(BaseDialect):
         return value
 
     def dumps(self, context):
-        return json.dumps(context)
+        return json.dumps(context, cls=jsonform.JSONFormEncoder)
 
 
 class FormDialect(BaseDialect):
@@ -107,7 +109,7 @@ def main():
 
     dialect = (args.dialect or JSONDialect)()
     try:
-        result = dict(makepair(dialect, pair) for pair in args.pair)
+        result = jsonform.encode(makepair(dialect, pair) for pair in args.pair)
     except InvalidLiteralError as e:
         fatal("valid literal value required for key `{}'".format(e.key))
     sys.stdout.write(dialect.dumps(result))
