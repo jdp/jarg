@@ -6,4 +6,7 @@ man/jarg.1.html: man/jarg.1.ronn
 release:
 	python setup.py sdist upload -r pypi
 
-.PHONY: release
+clean:
+	-rm -rf dist *.egg *.egg-info
+
+.PHONY: release clean
