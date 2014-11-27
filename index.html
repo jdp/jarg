@@ -91,10 +91,11 @@
 
 <h2 id="DESCRIPTION">DESCRIPTION</h2>
 
-<p><strong>jarg</strong> is a shorthand syntax for writing encoded data formats.
+<p><strong>jarg</strong> provides a shorthand syntax for writing encoded data formats.
 It writes the final representation to standard output.</p>
 
 <p>Each argument must be in the format of <em>name=value</em>.
+Each name must be in the <a href="http://www.w3.org/TR/html-json-forms/">HTML JSON form</a> (<a href="http://www.w3.org/TR/html-json-forms/" data-bare-link="true">http://www.w3.org/TR/html-json-forms/</a>) format.
 The <em>=value</em> portion is optional, omitting it will cause the value to take the empty value of the current dialect.
 Literal values may be provided in the <em>name:=value</em> format and they will be interpreted according to the current dialect.</p>
 
@@ -107,7 +108,6 @@ The default dialect is JSON.</p>
 
 <p>The output will be a JSON object.
 Integers and floats are automatically recognized.
-Booleans, lists, and objects can be provided as literal values.
 The empty value is <em>null</em>.</p>
 
 <h3 id="FORM">FORM</h3>
@@ -119,7 +119,7 @@ The empty value is an empty string.</p>
 <h2 id="OPTIONS">OPTIONS</h2>
 
 <dl>
-<dt><code>-j</code>, <code>--json</code></dt><dd><p>Set the current dialect to JSON.</p></dd>
+<dt><code>-j</code>, <code>--json</code></dt><dd><p>Set the current dialect to JSON. This is the default.</p></dd>
 <dt><code>-f</code>, <code>--form</code></dt><dd><p>Set the current dialect to form encoding.</p></dd>
 <dt><code>-h</code>, <code>--help</code></dt><dd><p>Show a help message and exit.</p></dd>
 <dt><code>-V</code>, <code>--version</code></dt><dd><p>Show the version and exit.</p></dd>
@@ -138,6 +138,24 @@ The empty value is an empty string.</p>
 
 <pre><code>$ jarg foo=bar baz=123 bux:=true
 {"foo": "bar", "baz": 123, "bux": true}
+</code></pre>
+
+<p>Repeating key names implicitly builds an array:</p>
+
+<pre><code>$ jarg a=1 a=2 a=3
+{"a": [1, 2, 3]}
+</code></pre>
+
+<p>Missing array indexes are automatically filled in:</p>
+
+<pre><code>$ jarg a[2]=foo a[4]=bar
+{"a": [null, null, "foo", null, "bar"]}
+</code></pre>
+
+<p>Creating nested objects is allowed too:</p>
+
+<pre><code>$ jarg foo[bar][baz]=quux
+{"foo": {"bar": {"baz": "quux"}}}
 </code></pre>
 
 <p>Force a string representation of a number in JSON:</p>
@@ -164,7 +182,7 @@ jarg=is+cool+and+good
 
 <h2 id="WWW">WWW</h2>
 
-<p><a href="http://jdp.github.io/jarg" data-bare-link="true">http://jdp.github.io/jarg</a></p>
+<p><a href="http://jdp.github.io/jarg" data-bare-link="true">http://jdp.github.io/jarg</a><br /></p>
 
 <h2 id="COPYRIGHT">COPYRIGHT</h2>
 
@@ -172,7 +190,7 @@ jarg=is+cool+and+good
 
 
   <ol class='man-decor man-foot man foot'>
-    <li class='tl'>jarg 0.2.1</li>
+    <li class='tl'>jarg 0.3.0</li>
     <li class='tc'>November 2014</li>
     <li class='tr'>jarg(1)</li>
   </ol>
