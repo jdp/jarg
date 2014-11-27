@@ -12,6 +12,7 @@
 It writes the final representation to standard output.
 
 Each argument must be in the format of *name=value*.
+Each name must be in the [HTML JSON form](http://www.w3.org/TR/html-json-forms/) ([http://www.w3.org/TR/html-json-forms/](http://www.w3.org/TR/html-json-forms/)) format.
 The *=value* portion is optional, omitting it will cause the value to take the empty value of the current dialect.
 Literal values may be provided in the *name:=value* format and they will be interpreted according to the current dialect.
 
@@ -24,7 +25,6 @@ The default dialect is JSON.
 
 The output will be a JSON object.
 Integers and floats are automatically recognized.
-Booleans, lists, and objects can be provided as literal values.
 The empty value is *null*.
 
 ### FORM
@@ -36,7 +36,7 @@ The empty value is an empty string.
 ## OPTIONS
 
   * `-j`, `--json`:
-    Set the current dialect to JSON.
+    Set the current dialect to JSON. This is the default.
 
   * `-f`, `--form`:
     Set the current dialect to form encoding.
@@ -60,6 +60,21 @@ Write some JSON to standard output:
 
     $ jarg foo=bar baz=123 bux:=true
     {"foo": "bar", "baz": 123, "bux": true}
+
+Repeating key names implicitly builds an array:
+
+    $ jarg a=1 a=2 a=3
+    {"a": [1, 2, 3]}
+
+Missing array indexes are automatically filled in:
+
+    $ jarg a[2]=foo a[4]=bar
+    {"a": [null, null, "foo", null, "bar"]}
+
+Creating nested objects is allowed too:
+
+    $ jarg foo[bar][baz]=quux
+    {"foo": {"bar": {"baz": "quux"}}}
 
 Force a string representation of a number in JSON:
 
