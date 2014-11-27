@@ -13,7 +13,7 @@ except ImportError:
 import jsonform
 
 
-__VERSION__ = ('0', '2', '1')
+__VERSION__ = ('0', '3', '0')
 
 
 class InvalidLiteralError(ValueError):
