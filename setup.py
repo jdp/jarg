@@ -45,7 +45,7 @@ dist = setup(
     name='jarg',
     version='.'.join(jarg.__VERSION__),
     license='MIT',
-    description="A shorthand encoding syntax for your shell",
+    description="A shorthand data serialization/encoding tool",
     long_description=readme,
     classifiers=classifiers,
     author="Justin Poliey",
@@ -57,6 +57,7 @@ dist = setup(
     entry_points={
         'console_scripts': ['jarg = jarg:main'],
     },
+    install_requires=['PyYAML>=3'],
     tests_require=['pytest'],
     cmdclass = {'test': PyTest},
 )
