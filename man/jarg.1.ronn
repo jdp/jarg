@@ -1,10 +1,8 @@
-# jarg(1) - shorthand JSON and form syntax
+# jarg(1) - shorthand data serialization/encoding
 
 ## SYNOPSIS
 
-  `jarg` *name=value*...<br>
-  `jarg` *name:=value*...<br>
-  `jarg` `-f` *name=value*...
+  `jarg` [`-h`] [`-j` | `-y` | `-f`] [`-V`] *name=value* [*name=value* ...]
 
 ## DESCRIPTION
 
@@ -27,6 +25,12 @@ The output will be a JSON object.
 Integers and floats are automatically recognized.
 The empty value is *null*.
 
+### YAML
+
+The output will be a YAML document.
+Integers and floats are automatically recognized.
+The empty value is *null*.
+
 ### FORM
 
 The output will be a percent-encoded list of name/value pairs,
@@ -37,6 +41,9 @@ The empty value is an empty string.
 
   * `-j`, `--json`:
     Set the current dialect to JSON. This is the default.
+
+  * `-y`, `--yaml`:
+    Set the current dialect to YAML.
 
   * `-f`, `--form`:
     Set the current dialect to form encoding.
