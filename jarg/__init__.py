@@ -10,6 +10,8 @@ try:
 except ImportError:
     from urllib.parse import parse_qs
 
+import yaml
+
 import jsonform
 
 
@@ -33,10 +35,7 @@ class BaseDialect(object):
         return str(context)
 
 
-class JSONDialect(BaseDialect):
-    def from_literal(self, value):
-        return json.loads(value)
-
+class CoerceMixin(object):
     def to_python(self, value):
         if value is None:
             return value
@@ -49,8 +48,21 @@ class JSONDialect(BaseDialect):
                 pass
         return value
 
+
+class JSONDialect(CoerceMixin, BaseDialect):
+    def from_literal(self, value):
+        return json.loads(value)
+
     def dumps(self, context):
         return json.dumps(context, cls=jsonform.JSONFormEncoder)
+
+
+class YAMLDialect(CoerceMixin, BaseDialect):
+    def from_literal(self, value):
+        return yaml.load(value)
+
+    def dumps(self, context):
+        return yaml.dump(context, explicit_start=True)
 
 
 class FormDialect(BaseDialect):
@@ -97,6 +109,9 @@ def main():
     dialects.add_argument(
         '-j', '--json', action='store_const', const=JSONDialect,
         dest='dialect', help="use the JSON dialect")
+    dialects.add_argument(
+        '-y', '--yaml', action='store_const', const=YAMLDialect,
+        dest='dialect', help="use the YAML dialect")
     dialects.add_argument(
         '-f', '--form', action='store_const', const=FormDialect,
         dest='dialect', help="use the form encoding dialect")
