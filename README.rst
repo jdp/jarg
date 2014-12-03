@@ -3,7 +3,7 @@ jarg
 ====
 
 **jarg** is an encoding shorthand for your shell.
-It is a command-line utility that wants to make writing things like JSON and form-encoded values easier in the shell.
+It is a command-line utility that makes generating data in formats like JSON, YAML, and form encoding easier in the shell.
 
 Installation
 ------------
@@ -33,6 +33,11 @@ If you leave it out, it is interpreted as ``null``::
     $ jarg foo
     {"foo": null}
 
+The `name` portions have the same syntax and semantics as `HTML JSON`_ names::
+
+    $ jarg foo[]=bar foo[]=baz
+    {"foo": ["bar", "baz"]}
+
 You can also write literal values directly, using the `name:=value` syntax.
 That lets you write things like booleans, lists, and explicit strings::
 
@@ -41,19 +46,24 @@ That lets you write things like booleans, lists, and explicit strings::
     $ jarg foo:=[1,2,3]
     {"foo": [1, 2, 3]}
 
-The literal syntax also lets you nest values in recursive dialects::
-
-    $ jarg foo:="$(jarg bar=baz quux=bux)"
-    {"foo": {"quux": "bux", "bar": "baz"}}
-
 
 Dialects
 --------
 
-The default dialect is JSON.
-You can switch to the form encoding dialect with the ``-f`` switch::
+The default dialect is JSON, and includes support for YAML and form encoding.
+
+To use the YAML dialect, use the ``-y``/``--yaml`` switch::
+
+    $ jarg -y name=jarg type="cli tool" traits[]=dope traits[]=rad
+    ---
+    name: jarg
+    traits: [dope, rad]
+    type: cli tool
+
+You can switch to the form encoding dialect with the ``-f``/``--form`` switch::
 
     $ jarg -f foo=bar baz="jarg is dope"
     foo=bar&baz=jarg+is+dope
 
 .. _PyPI: http://pypi.python.org/
+.. _`HTML JSON`: http://www.w3.org/TR/html-json-forms/
