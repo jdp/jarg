@@ -35,8 +35,8 @@ If you leave it out, it is interpreted as ``null``::
 
 The `name` portions have the same syntax and semantics as `HTML JSON`_ names::
 
-    $ jarg foo[]=bar foo[]=baz
-    {"foo": ["bar", "baz"]}
+    $ jarg foo[]=bar foo[]=baz bar[baz]=quux
+    {"foo": ["bar", "baz"], "bar": {"baz": "quux"}}
 
 You can also write literal values directly, using the `name:=value` syntax.
 That lets you write things like booleans, lists, and explicit strings::
