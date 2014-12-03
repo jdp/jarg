@@ -104,7 +104,7 @@ def fatal(msg, code=1):
 
 def main():
     ap = argparse.ArgumentParser(
-        description="Shorthand encoding format syntax.")
+        description="Shorthand encoding format syntax.", prog="jarg")
     dialects = ap.add_mutually_exclusive_group()
     dialects.add_argument(
         '-j', '--json', action='store_const', const=JSONDialect,
