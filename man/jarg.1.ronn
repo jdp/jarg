@@ -7,12 +7,18 @@
 ## DESCRIPTION
 
 **jarg** provides a shorthand syntax for writing encoded data formats.
+It works by adding name-value pairs to the current *context*,
+which starts out empty by default.
 It writes the final representation to standard output.
 
 Each argument must be in the format of *name=value*.
 Each name must be in the [HTML JSON form](http://www.w3.org/TR/html-json-forms/) ([http://www.w3.org/TR/html-json-forms/](http://www.w3.org/TR/html-json-forms/)) format.
 The *=value* portion is optional, omitting it will cause the value to take the empty value of the current dialect.
 Literal values may be provided in the *name:=value* format and they will be interpreted according to the current dialect.
+
+Each name-value pair is added to the current context.
+A starting context can be specified through standard input when not in a TTY,
+and must be in the same dialect as the output.
 
 ## DIALECTS
 
