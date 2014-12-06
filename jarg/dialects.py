@@ -41,7 +41,7 @@ class JSONDialect(CoerceMixin, BaseDialect):
         return json.loads(value)
 
     def dumps(self, context):
-        return json.dumps(context, cls=jsonform.JSONFormEncoder)
+        return json.dumps(context, cls=JSONFormEncoder)
 
 
 class YAMLDialect(CoerceMixin, BaseDialect):
