@@ -5,9 +5,9 @@ import json
 import os
 import sys
 
-import jsonform
 from . import __VERSION__
 from .dialects import FormDialect, JSONDialect, YAMLDialect
+from .jsonform import encode
 
 
 class InvalidLiteralError(ValueError):
@@ -66,7 +66,7 @@ def main():
     else:
         context = dialect.from_literal(sys.stdin.read())
     try:
-        context.update(jsonform.encode(makepair(dialect, pair) for pair in args.pair))
+        context.update(encode(makepair(dialect, pair) for pair in args.pair))
     except InvalidLiteralError as e:
         fatal("valid literal value required for key `{}'".format(e.key))
     sys.stdout.write(dialect.dumps(context))

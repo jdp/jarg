@@ -8,7 +8,7 @@ except ImportError:
 
 import yaml
 
-import jsonform
+from .jsonform import JSONFormEncoder
 
 
 class BaseDialect(object):
