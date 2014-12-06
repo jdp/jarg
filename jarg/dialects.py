@@ -8,6 +8,8 @@ except ImportError:
 
 import yaml
 
+import jsonform
+
 
 class BaseDialect(object):
     def from_literal(self, value):

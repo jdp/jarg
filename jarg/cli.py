@@ -6,7 +6,8 @@ import os
 import sys
 
 import jsonform
-from dialects import FormDialect, JSONDialect, YAMLDialect
+from . import __VERSION__
+from .dialects import FormDialect, JSONDialect, YAMLDialect
 
 
 class InvalidLiteralError(ValueError):
