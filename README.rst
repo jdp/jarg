@@ -2,6 +2,9 @@
 jarg
 ====
 
+.. image:: https://travis-ci.org/jdp/jarg.svg?branch=master
+    :target: https://travis-ci.org/jdp/jarg
+
 **jarg** is an encoding shorthand for your shell.
 It is a command-line utility that makes generating data in formats like JSON, YAML, and form encoding easier in the shell.
 
