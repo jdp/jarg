@@ -55,7 +55,7 @@ dist = setup(
     zip_safe=False,
     packages=['jarg'],
     entry_points={
-        'console_scripts': ['jarg = jarg:main'],
+        'console_scripts': ['jarg = jarg.cli:main'],
     },
     install_requires=['PyYAML>=3'],
     tests_require=['pytest'],

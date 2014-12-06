@@ -1,10 +1,10 @@
 import pytest
 
-import jarg
+from jarg.dialects import FormDialect, JSONDialect
 
 
 def test_JSONDialect():
-    dialect = jarg.JSONDialect()
+    dialect = JSONDialect()
 
     assert dialect.to_python("bar") == "bar"
     assert dialect.to_python("42") == 42
@@ -18,19 +18,9 @@ def test_JSONDialect():
 
 
 def test_FormDialect():
-    dialect = jarg.FormDialect()
+    dialect = FormDialect()
 
     assert dialect.to_python("foo") == "foo"
 
     assert dialect.from_literal("foo=bar") == {'foo': ['bar']}
 
-
-def test_makepair():
-    dialect = jarg.JSONDialect()
-
-    assert jarg.makepair(dialect, "foo=bar") == ('foo', 'bar')
-    assert jarg.makepair(dialect, "foo=42") == ('foo', 42)
-    assert jarg.makepair(dialect, "foo:=\"123\"") == ('foo', '123')
-
-    with pytest.raises(jarg.InvalidLiteralError):
-        jarg.makepair(dialect, "foo:=[1")
