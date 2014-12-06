@@ -4,11 +4,11 @@ import argparse
 import json
 import os
 import sys
-from urllib import urlencode
 try:
+    from urllib import urlencode
     from urlparse import parse_qs
 except ImportError:
-    from urllib.parse import parse_qs
+    from urllib.parse import parse_qs, urlencode
 
 import yaml
 
