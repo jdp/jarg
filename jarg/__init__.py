@@ -61,9 +61,6 @@ class YAMLDialect(CoerceMixin, BaseDialect):
     def from_literal(self, value):
         return yaml.load(value)
 
-    def dumps(self, context):
-        return yaml.dump(context, explicit_start=True)
-
 
 class FormDialect(BaseDialect):
     def from_literal(self, value):
@@ -123,11 +120,15 @@ def main():
     args = ap.parse_args()
 
     dialect = (args.dialect or JSONDialect)()
+    if sys.stdin.isatty():
+        context = {}
+    else:
+        context = dialect.from_literal(sys.stdin.read())
     try:
-        result = jsonform.encode(makepair(dialect, pair) for pair in args.pair)
+        context.update(jsonform.encode(makepair(dialect, pair) for pair in args.pair))
     except InvalidLiteralError as e:
         fatal("valid literal value required for key `{}'".format(e.key))
-    sys.stdout.write(dialect.dumps(result))
+    sys.stdout.write(dialect.dumps(context))
 
 if __name__ == '__main__':
     main()
