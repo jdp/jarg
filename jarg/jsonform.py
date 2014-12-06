@@ -68,7 +68,9 @@ def set_value(context, step, current_value, entry_value):
         elif isinstance(current_value, list):
             context[key].append(entry_value)
         elif isinstance(current_value, dict):
-            set_value(current_value, ("", {'last': True}), current_value.get("", undefined), entry_value)
+            set_value(
+                current_value, ("", {'last': True}),
+                current_value.get("", undefined), entry_value)
         else:
             context[key] = [current_value, entry_value]
         return context
